@@ -1,0 +1,8 @@
+(https://allfiled.com)+(+(name))/$is/+(+name)
+(https://allfiled.com)+(+(first_name))/$is/+(+first)+(+name)
+(https://allfiled.com)+(+(middle_name))/$is/+(+middle)+(+name)
+(https://allfiled.com)+(+(last_name))/$is/+(+last)+(+name)
+(https://allfiled.com)+(+(gender))/$is/+(+gender)
+(https://allfiled.com)+(+(locale))/$is/+(+locale)
+(https://allfiled.com)+(+(email))/$is/+(+email)
+(https://allfiled.com)+(+(website))/$is/+(+website)
