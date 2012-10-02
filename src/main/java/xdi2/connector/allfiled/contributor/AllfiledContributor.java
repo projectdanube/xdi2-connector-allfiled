@@ -4,8 +4,11 @@ import java.io.IOException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import xdi2.connector.allfiled.api.AllfiledApi;
+import xdi2.connector.allfiled.mapping.AllfiledMapping;
 import xdi2.connector.allfiled.util.GraphUtil;
 import xdi2.core.ContextNode;
 import xdi2.core.Graph;
@@ -21,8 +24,11 @@ import xdi2.messaging.target.interceptor.MessageEnvelopeInterceptor;
 
 public class AllfiledContributor extends AbstractContributor implements MessageEnvelopeInterceptor {
 
+	private static final Logger log = LoggerFactory.getLogger(AllfiledContributor.class);
+
 	private Graph graph;
 	private AllfiledApi allfiledApi;
+	private AllfiledMapping allfiledMapping;
 
 	public AllfiledContributor() {
 
@@ -69,7 +75,7 @@ public class AllfiledContributor extends AbstractContributor implements MessageE
 		}
 	}
 
-	@ContributorCall(addresses={"$!(gender)","$!(last_name)","$!(first_name)","$!(email)"})
+	@ContributorCall(addresses={"($)"})
 	private class AllfiledUserAttributeContributor extends AbstractContributor {
 
 		private AllfiledUserAttributeContributor() {
@@ -78,34 +84,45 @@ public class AllfiledContributor extends AbstractContributor implements MessageE
 		}
 
 		@Override
-		public boolean getContext(XRI3Segment contributorXri, XRI3Segment relativeContextNodeXri, XRI3Segment contextNodeXri, GetOperation operation, MessageResult messageResult, ExecutionContext executionContext) throws Xdi2MessagingException {
-			
-			String contributorXriString = contributorXri.toString();
-			String literalData = null;
+		public boolean getContext(XRI3Segment[] contributorXris, XRI3Segment relativeContextNodeXri, XRI3Segment contextNodeXri, GetOperation operation, MessageResult messageResult, ExecutionContext executionContext) throws Xdi2MessagingException {
+
+			XRI3Segment allfiledContextXri = contributorXris[contributorXris.length - 3];
+			XRI3Segment userXri = contributorXris[contributorXris.length - 2];
+			XRI3Segment allfiledDataXri = contributorXris[contributorXris.length - 1];
+
+			log.debug("allfiledContextXri: " + allfiledContextXri + ", userXri: " + userXri + ", allfiledDataXri: " + allfiledDataXri);
+
+			// retrieve the Allfiled value
+
+			String allfiledValue = null;
 
 			try {
 
-				String accessToken = GraphUtil.retrieveAccessToken(AllfiledContributor.this.getGraph());
+				String allfiledFieldIdentifier = AllfiledContributor.this.allfiledMapping.allfiledDataXriToAllfiledFieldIdentifier(allfiledDataXri);
+				if (allfiledFieldIdentifier == null) return false;
+
+				String accessToken = GraphUtil.retrieveAccessToken(AllfiledContributor.this.getGraph(), userXri);
 				if (accessToken == null) throw new Exception("No access token.");
 
 				JSONObject user = AllfiledContributor.this.retrieveUser(executionContext, accessToken);
 				if (user == null) throw new Exception("No user.");
+				if (! user.has(allfiledFieldIdentifier)) return false;
 
-				if (contributorXriString.equals("$!(first_name)")) literalData = user.getString("first_name");
-				else if (contributorXriString.equals("$!(last_name)")) literalData = user.getString("last_name");
-				else if (contributorXriString.equals("$!(gender)")) literalData = user.getString("gender");
-				else if (contributorXriString.equals("$!(email)")) literalData = user.getString("email");
-				else return false;
+				allfiledValue = user.getString(allfiledFieldIdentifier);
 			} catch (Exception ex) {
 
 				throw new Xdi2MessagingException("Cannot load user data: " + ex.getMessage(), ex, null);
 			}
 
-			if (literalData != null) {
+			// add the Allfiled value to the response
+
+			if (allfiledValue != null) {
 
 				ContextNode contextNode = messageResult.getGraph().findContextNode(contextNodeXri, true);
-				contextNode.createLiteral(literalData);
+				contextNode.createLiteral(allfiledValue);
 			}
+
+			// done
 
 			return true;
 		}
@@ -127,7 +144,7 @@ public class AllfiledContributor extends AbstractContributor implements MessageE
 
 		return user;
 	}
-	
+
 	/*
 	 * Getters and setters
 	 */
@@ -150,5 +167,15 @@ public class AllfiledContributor extends AbstractContributor implements MessageE
 	public void setAllfiledApi(AllfiledApi templateApi) {
 
 		this.allfiledApi = templateApi;
+	}
+
+	public AllfiledMapping getAllfiledMapping() {
+
+		return this.allfiledMapping;
+	}
+
+	public void setAllfiledMapping(AllfiledMapping allfiledMapping) {
+
+		this.allfiledMapping = allfiledMapping;
 	}
 }
