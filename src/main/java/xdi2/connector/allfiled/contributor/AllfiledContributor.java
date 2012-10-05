@@ -26,7 +26,7 @@ public class AllfiledContributor extends AbstractContributor implements MessageE
 
 	private static final Logger log = LoggerFactory.getLogger(AllfiledContributor.class);
 
-	private Graph graph;
+	private Graph tokenGraph;
 	private AllfiledApi allfiledApi;
 	private AllfiledMapping allfiledMapping;
 
@@ -101,7 +101,7 @@ public class AllfiledContributor extends AbstractContributor implements MessageE
 				String allfiledFieldIdentifier = AllfiledContributor.this.allfiledMapping.allfiledDataXriToAllfiledFieldIdentifier(allfiledDataXri);
 				if (allfiledFieldIdentifier == null) return false;
 
-				String accessToken = GraphUtil.retrieveAccessToken(AllfiledContributor.this.getGraph(), userXri);
+				String accessToken = GraphUtil.retrieveAccessToken(AllfiledContributor.this.getTokenGraph(), userXri);
 				if (accessToken == null) throw new Exception("No access token.");
 
 				JSONObject user = AllfiledContributor.this.retrieveUser(executionContext, accessToken);
@@ -149,14 +149,14 @@ public class AllfiledContributor extends AbstractContributor implements MessageE
 	 * Getters and setters
 	 */
 
-	public Graph getGraph() {
+	public Graph getTokenGraph() {
 
-		return this.graph;
+		return this.tokenGraph;
 	}
 
-	public void setGraph(Graph graph) {
+	public void setTokenGraph(Graph tokenGraph) {
 
-		this.graph = graph;
+		this.tokenGraph = tokenGraph;
 	}
 
 	public AllfiledApi getAllfiledApi() {
