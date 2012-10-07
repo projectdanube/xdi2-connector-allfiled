@@ -19,9 +19,10 @@ import xdi2.messaging.MessageResult;
 import xdi2.messaging.exceptions.Xdi2MessagingException;
 import xdi2.messaging.target.ExecutionContext;
 import xdi2.messaging.target.contributor.AbstractContributor;
-import xdi2.messaging.target.contributor.ContributorCall;
+import xdi2.messaging.target.contributor.ContributorXri;
 import xdi2.messaging.target.interceptor.MessageEnvelopeInterceptor;
 
+@ContributorXri(addresses={"(https://allfiled.com)"})
 public class AllfiledContributor extends AbstractContributor implements MessageEnvelopeInterceptor {
 
 	private static final Logger log = LoggerFactory.getLogger(AllfiledContributor.class);
@@ -64,7 +65,7 @@ public class AllfiledContributor extends AbstractContributor implements MessageE
 	 * Sub-Contributors
 	 */
 
-	@ContributorCall(addresses={"($)"})
+	@ContributorXri(addresses={"($)"})
 	private class AllfiledUserContributor extends AbstractContributor {
 
 		private AllfiledUserContributor() {
@@ -75,7 +76,7 @@ public class AllfiledContributor extends AbstractContributor implements MessageE
 		}
 	}
 
-	@ContributorCall(addresses={"($)"})
+	@ContributorXri(addresses={"($)"})
 	private class AllfiledUserAttributeContributor extends AbstractContributor {
 
 		private AllfiledUserAttributeContributor() {
