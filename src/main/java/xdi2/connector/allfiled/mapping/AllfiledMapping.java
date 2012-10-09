@@ -5,8 +5,11 @@ import org.slf4j.LoggerFactory;
 
 import xdi2.core.ContextNode;
 import xdi2.core.Graph;
+import xdi2.core.exceptions.Xdi2RuntimeException;
 import xdi2.core.features.dictionary.Dictionary;
 import xdi2.core.features.multiplicity.Multiplicity;
+import xdi2.core.impl.memory.MemoryGraphFactory;
+import xdi2.core.io.XDIReaderRegistry;
 import xdi2.core.xri3.impl.XRI3Segment;
 import xdi2.core.xri3.impl.XRI3SubSegment;
 
@@ -16,7 +19,29 @@ public class AllfiledMapping {
 
 	private static final Logger log = LoggerFactory.getLogger(AllfiledMapping.class);
 
+	private static AllfiledMapping instance;
+
 	private Graph mappingGraph;
+	
+	public AllfiledMapping() {
+
+		this.mappingGraph = MemoryGraphFactory.getInstance().openGraph();
+
+		try {
+
+			XDIReaderRegistry.getAuto().read(this.mappingGraph, AllfiledMapping.class.getResourceAsStream("mapping.xdi"));
+		} catch (Exception ex) {
+
+			throw new Xdi2RuntimeException(ex.getMessage(), ex);
+		}
+	}
+
+	public static AllfiledMapping getInstance() {
+		
+		if (instance == null) instance = new AllfiledMapping();
+		
+		return instance;
+	}
 
 	/**
 	 * Converts an Allfiled data XRI to a native Allfiled field identifier.

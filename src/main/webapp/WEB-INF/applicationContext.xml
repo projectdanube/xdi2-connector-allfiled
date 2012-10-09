@@ -37,20 +37,14 @@
 	<bean id="allfiledContributor" class="xdi2.connector.allfiled.contributor.AllfiledContributor">
 		<property name="tokenGraph" ref="graph1" />
 		<property name="allfiledApi" ref="allfiledApi" />
-		<property name="allfiledMapping" ref="allfiledMapping" />
+		<property name="allfiledMapping">
+			<bean id="allfiledMapping" class="xdi2.connector.allfiled.mapping.AllfiledMapping" />
+		</property>
 	</bean>
 
 	<bean id="allfiledApi" class="xdi2.connector.allfiled.api.AllfiledApi" init-method="init" destroy-method="destroy">
 		<property name="appId" value="..." />
 		<property name="appSecret" value="..." />
-	</bean>
-
-	<bean id="allfiledMapping" class="xdi2.connector.allfiled.mapping.AllfiledMapping">
-		<property name="mappingGraph" ref="allfiledMappingGraph" />
-	</bean>
-
-	<bean id="allfiledMappingGraph" factory-bean="graphfactory1" factory-method="loadGraph">
-		<constructor-arg><value>classpath&#58;/xdi2/connector/allfiled/mapping/mapping.xdi</value></constructor-arg>
 	</bean>
 
 	<bean name="/allfiled" class="xdi2.messaging.target.impl.graph.GraphMessagingTarget">
