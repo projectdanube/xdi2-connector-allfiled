@@ -51,7 +51,7 @@ public class AllfiledApi {
 
 		log.debug("Starting OAuth...");
 
-		StringBuffer location = new StringBuffer("https://www.yoursite.com/oauth/?");
+		StringBuffer location = new StringBuffer("https://www.allfiled.com/oauth/?");
 		location.append("client_id=" + URLEncoder.encode(clientId, "UTF-8"));
 		location.append("&redirect_uri=" + URLEncoder.encode(redirectUri, "UTF-8"));
 		location.append("&scope=" + URLEncoder.encode(scope, "UTF-8"));
