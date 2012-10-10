@@ -64,7 +64,7 @@
 		</property>
 		<property name="contributors">
 			<util:map>
-				<entry key="(https://allfiled.com)" value-ref="allfiledContributor" />
+				<entry key="+(https://allfiled.com/)" value-ref="allfiledContributor" />
 			</util:map>
 		</property>
 	</bean>

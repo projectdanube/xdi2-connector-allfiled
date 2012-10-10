@@ -15,7 +15,7 @@ import xdi2.core.xri3.impl.XRI3SubSegment;
 
 public class AllfiledMapping {
 
-	public static final XRI3Segment XRI_S_ALLFILED_CONTEXT = new XRI3Segment("(https://allfiled.com)");
+	public static final XRI3Segment XRI_S_ALLFILED_CONTEXT = new XRI3Segment("+(https://allfiled.com/)");
 
 	private static final Logger log = LoggerFactory.getLogger(AllfiledMapping.class);
 

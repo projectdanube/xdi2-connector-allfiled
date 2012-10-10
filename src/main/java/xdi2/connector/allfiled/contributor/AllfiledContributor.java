@@ -26,7 +26,7 @@ import xdi2.messaging.target.impl.graph.GraphMessagingTarget;
 import xdi2.messaging.target.interceptor.MessageEnvelopeInterceptor;
 import xdi2.messaging.target.interceptor.MessagingTargetInterceptor;
 
-@ContributorXri(addresses={"(https://allfiled.com)"})
+@ContributorXri(addresses={"+(https://allfiled.com/)"})
 public class AllfiledContributor extends AbstractContributor implements MessagingTargetInterceptor, MessageEnvelopeInterceptor, Prototype<AllfiledContributor> {
 
 	private static final Logger log = LoggerFactory.getLogger(AllfiledContributor.class);
@@ -110,7 +110,7 @@ public class AllfiledContributor extends AbstractContributor implements Messagin
 	 * Sub-Contributors
 	 */
 
-	@ContributorXri(addresses={"($)"})
+	@ContributorXri(addresses={"($$!)"})
 	private class AllfiledUserContributor extends AbstractContributor {
 
 		private AllfiledUserContributor() {
