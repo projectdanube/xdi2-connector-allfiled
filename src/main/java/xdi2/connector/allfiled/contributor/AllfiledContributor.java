@@ -117,14 +117,14 @@ public class AllfiledContributor extends AbstractContributor implements Messagin
 
 			super();
 
-			this.getContributors().addContributor(new AllfiledUserAttributeContributor());
+			this.getContributors().addContributor(new AllfiledCategoryFileFieldContributor());
 		}
 	}
 
-	@ContributorXri(addresses={"($)"})
-	private class AllfiledUserAttributeContributor extends AbstractContributor {
+	@ContributorXri(addresses={"($)($)($)"})
+	private class AllfiledCategoryFileFieldContributor extends AbstractContributor {
 
-		private AllfiledUserAttributeContributor() {
+		private AllfiledCategoryFileFieldContributor() {
 
 			super();
 		}
@@ -144,17 +144,23 @@ public class AllfiledContributor extends AbstractContributor implements Messagin
 
 			try {
 
+				String allfiledCategoryIdentifier = AllfiledContributor.this.allfiledMapping.allfiledDataXriToAllfiledCategoryIdentifier(allfiledDataXri);
+				String allfiledFileIdentifier = AllfiledContributor.this.allfiledMapping.allfiledDataXriToAllfiledFileIdentifier(allfiledDataXri);
 				String allfiledFieldIdentifier = AllfiledContributor.this.allfiledMapping.allfiledDataXriToAllfiledFieldIdentifier(allfiledDataXri);
+				if (allfiledCategoryIdentifier == null) return false;
+				if (allfiledFileIdentifier == null) return false;
 				if (allfiledFieldIdentifier == null) return false;
 
+				log.debug("allfiledCategoryIdentifier: " + allfiledCategoryIdentifier + ", allfiledFileIdentifier: " + allfiledFileIdentifier + ", allfiledFieldIdentifier: " + allfiledFieldIdentifier);
+				
 				String accessToken = GraphUtil.retrieveAccessToken(AllfiledContributor.this.getTokenGraph(), userXri);
 				if (accessToken == null) throw new Exception("No access token.");
 
-				JSONObject user = AllfiledContributor.this.retrieveUser(executionContext, accessToken);
-				if (user == null) throw new Exception("No user.");
-				if (! user.has(allfiledFieldIdentifier)) return false;
+				JSONObject file = AllfiledContributor.this.retrieveFile(executionContext, accessToken, allfiledCategoryIdentifier, allfiledFileIdentifier);
+				if (file == null) throw new Exception("No user.");
+				if (! file.getJSONObject("fieldsMap").has(allfiledFieldIdentifier)) return false;
 
-				allfiledValue = user.getString(allfiledFieldIdentifier);
+				allfiledValue = file.getJSONObject("fieldsMap").getString(allfiledFieldIdentifier);
 			} catch (Exception ex) {
 
 				throw new Xdi2MessagingException("Cannot load user data: " + ex.getMessage(), ex, null);
@@ -178,13 +184,13 @@ public class AllfiledContributor extends AbstractContributor implements Messagin
 	 * Helper methods
 	 */
 
-	private JSONObject retrieveUser(ExecutionContext executionContext, String accessToken) throws IOException, JSONException {
+	private JSONObject retrieveFile(ExecutionContext executionContext, String accessToken, String categoryIdentifier, String fileIdentifier) throws IOException, JSONException {
 
 		JSONObject user = AllfiledContributorExecutionContext.getUser(executionContext, accessToken);
 
 		if (user == null) {
 
-			user = this.allfiledApi.getUser(accessToken);
+			user = this.allfiledApi.getFile(accessToken, categoryIdentifier, fileIdentifier);
 			AllfiledContributorExecutionContext.putUser(executionContext, accessToken, user);
 		}
 
