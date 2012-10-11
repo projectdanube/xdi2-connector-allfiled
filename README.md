@@ -3,7 +3,7 @@
 
 This is a connector module for the [XDI2](http://github.com/peacekeeper/xdi2) server.
 
-It can map personal data from the [Allfiled API](http://allfiled.com/) to XDI. 
+It can map personal data from the [Allfiled API](https://demo.allfiled.com/apisite/docs/overview/intro) to XDI. 
 
 ### Information
 
