@@ -28,10 +28,13 @@ public class AllfiledMappingTest extends TestCase {
 	public void testMapping() throws Exception {
 
 		XRI3Segment allfiledDataXri = new XRI3Segment("+(personal)+(person)$!(+(forename))");
+		XRI3Segment xdiDataXri = new XRI3Segment("+first$!(+name)");
 
 		assertEquals("personal", this.allfiledMapping.allfiledDataXriToAllfiledCategoryIdentifier(allfiledDataXri));
 		assertEquals("person", this.allfiledMapping.allfiledDataXriToAllfiledFileIdentifier(allfiledDataXri));
 		assertEquals("forename", this.allfiledMapping.allfiledDataXriToAllfiledFieldIdentifier(allfiledDataXri));
-		assertEquals(new XRI3Segment("+first$!(+name)"), this.allfiledMapping.allfiledDataXriToXdiDataXri(allfiledDataXri));
+
+		assertEquals(xdiDataXri, this.allfiledMapping.allfiledDataXriToXdiDataXri(allfiledDataXri));
+		assertEquals(allfiledDataXri, this.allfiledMapping.xdiDataXriToAllfiledDataXri(xdiDataXri));
 	}
 }
