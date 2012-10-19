@@ -43,8 +43,8 @@
 	</bean>
 
 	<bean id="allfiledApi" class="xdi2.connector.allfiled.api.AllfiledApi" init-method="init" destroy-method="destroy">
-		<property name="appId" value="1191" />
-		<property name="appSecret" value="TC2Sgky11WcpeyFYdhGVlNhuOP2LqjSmwJTHLKhQXjGvaedDOG" />
+		<property name="appId" value="1372" />
+		<property name="appSecret" value="cRiet3ezo5cieniaqlubRi6MIedri15oUziupriek9a24oAstl" />
 	</bean>
 
 	<bean name="/allfiled" class="xdi2.messaging.target.impl.graph.GraphMessagingTarget">
