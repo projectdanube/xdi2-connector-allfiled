@@ -34,11 +34,19 @@
 
 	<bean id="graph1" factory-bean="graphfactory1" factory-method="openGraph" />
 
+	<bean id="allfiledMappingGraphfactory" class="xdi2.core.impl.wrapped.classpath.ClasspathGraphFactory">
+		<property name="classpath" value="/xdi2/connector/allfiled/mapping/mapping.xdi" />
+		<property name="mimeType" value="text/xdi;contexts=0;ordered=1" />
+	</bean>
+
+	<bean id="allfiledMappingGraph" factory-bean="allfiledMappingGraphfactory" factory-method="openGraph" />
+
 	<bean id="allfiledContributor" class="xdi2.connector.allfiled.contributor.AllfiledContributor">
-		<property name="tokenGraph" ref="graph1" />
 		<property name="allfiledApi" ref="allfiledApi" />
 		<property name="allfiledMapping">
-			<bean id="allfiledMapping" class="xdi2.connector.allfiled.mapping.AllfiledMapping" />
+			<bean class="xdi2.connector.allfiled.mapping.AllfiledMapping">
+				<property name="mappingGraph" ref="allfiledMappingGraph" />
+			</bean>
 		</property>
 	</bean>
 
@@ -68,6 +76,13 @@
 				<entry key="+(https://allfiled.com/)" value-ref="allfiledContributor" />
 			</util:map>
 		</property>
+	</bean>
+
+	<!-- MESSAGING TARGET at /mapping -->
+	<!-- MessagingTarget: GraphMessagingTarget -->
+
+	<bean name="/mapping" class="xdi2.messaging.target.impl.graph.GraphMessagingTarget">
+		<property name="graph" ref="allfiledMappingGraph" />
 	</bean>
 
 </beans>
