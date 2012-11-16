@@ -12,7 +12,7 @@ import xdi2.connector.allfiled.mapping.AllfiledMapping;
 import xdi2.connector.allfiled.util.GraphUtil;
 import xdi2.core.ContextNode;
 import xdi2.core.Graph;
-import xdi2.core.xri3.impl.XRI3Segment;
+import xdi2.core.xri3.impl.XDI3Segment;
 import xdi2.messaging.GetOperation;
 import xdi2.messaging.MessageEnvelope;
 import xdi2.messaging.MessageResult;
@@ -115,7 +115,7 @@ public class AllfiledContributor extends AbstractContributor implements Messagin
 	private class AllfiledEnabledContributor extends AbstractContributor {
 
 		@Override
-		public boolean getContext(XRI3Segment[] contributorXris, XRI3Segment relativeContextNodeXri, XRI3Segment contextNodeXri, GetOperation operation, MessageResult messageResult, ExecutionContext executionContext) throws Xdi2MessagingException {
+		public boolean getContext(XDI3Segment[] contributorXris, XDI3Segment relativeContextNodeXri, XDI3Segment contextNodeXri, GetOperation operation, MessageResult messageResult, ExecutionContext executionContext) throws Xdi2MessagingException {
 
 			messageResult.getGraph().findContextNode(contextNodeXri, true).createLiteral("1");
 
@@ -143,11 +143,11 @@ public class AllfiledContributor extends AbstractContributor implements Messagin
 		}
 
 		@Override
-		public boolean getContext(XRI3Segment[] contributorXris, XRI3Segment relativeContextNodeXri, XRI3Segment contextNodeXri, GetOperation operation, MessageResult messageResult, ExecutionContext executionContext) throws Xdi2MessagingException {
+		public boolean getContext(XDI3Segment[] contributorXris, XDI3Segment relativeContextNodeXri, XDI3Segment contextNodeXri, GetOperation operation, MessageResult messageResult, ExecutionContext executionContext) throws Xdi2MessagingException {
 
-			XRI3Segment allfiledContextXri = contributorXris[contributorXris.length - 3];
-			XRI3Segment userXri = contributorXris[contributorXris.length - 2];
-			XRI3Segment allfiledDataXri = contributorXris[contributorXris.length - 1];
+			XDI3Segment allfiledContextXri = contributorXris[contributorXris.length - 3];
+			XDI3Segment userXri = contributorXris[contributorXris.length - 2];
+			XDI3Segment allfiledDataXri = contributorXris[contributorXris.length - 1];
 
 			log.debug("allfiledContextXri: " + allfiledContextXri + ", userXri: " + userXri + ", allfiledDataXri: " + allfiledDataXri);
 

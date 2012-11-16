@@ -10,12 +10,11 @@ import xdi2.core.features.dictionary.Dictionary;
 import xdi2.core.features.multiplicity.Multiplicity;
 import xdi2.core.impl.memory.MemoryGraphFactory;
 import xdi2.core.io.XDIReaderRegistry;
-import xdi2.core.xri3.impl.XRI3Segment;
-import xdi2.core.xri3.impl.XRI3SubSegment;
+import xdi2.core.xri3.impl.XDI3Segment;
 
 public class AllfiledMapping {
 
-	public static final XRI3Segment XRI_S_ALLFILED_CONTEXT = new XRI3Segment("+(https://allfiled.com/)");
+	public static final XDI3Segment XRI_S_ALLFILED_CONTEXT = new XDI3Segment("+(https://allfiled.com/)");
 
 	private static final Logger log = LoggerFactory.getLogger(AllfiledMapping.class);
 
@@ -47,13 +46,13 @@ public class AllfiledMapping {
 	 * Converts a Allfiled data XRI to a native Allfiled category identifier.
 	 * Example: +(personal)+(person)$!(+(forename)) --> personal
 	 */
-	public String allfiledDataXriToAllfiledCategoryIdentifier(XRI3Segment allfiledDataXri) {
+	public String allfiledDataXriToAllfiledCategoryIdentifier(XDI3Segment allfiledDataXri) {
 
 		if (allfiledDataXri == null) throw new NullPointerException();
 
 		// convert
 
-		String allfiledCategoryIdentifier = Dictionary.instanceXriToNativeIdentifier(Multiplicity.baseArcXri((XRI3SubSegment) allfiledDataXri.getSubSegment(0)));
+		String allfiledCategoryIdentifier = Dictionary.instanceXriToNativeIdentifier(Multiplicity.baseArcXri(allfiledDataXri.getSubSegment(0)));
 
 		// done
 
@@ -66,13 +65,13 @@ public class AllfiledMapping {
 	 * Converts a Allfiled data XRI to a native Allfiled file identifier.
 	 * Example: +(personal)+(person)$!(+(forename)) --> person
 	 */
-	public String allfiledDataXriToAllfiledFileIdentifier(XRI3Segment allfiledDataXri) {
+	public String allfiledDataXriToAllfiledFileIdentifier(XDI3Segment allfiledDataXri) {
 
 		if (allfiledDataXri == null) throw new NullPointerException();
 
 		// convert
 
-		String allfiledFileIdentifier = Dictionary.instanceXriToNativeIdentifier(Multiplicity.baseArcXri((XRI3SubSegment) allfiledDataXri.getSubSegment(1)));
+		String allfiledFileIdentifier = Dictionary.instanceXriToNativeIdentifier(Multiplicity.baseArcXri(allfiledDataXri.getSubSegment(1)));
 
 		// done
 
@@ -85,13 +84,13 @@ public class AllfiledMapping {
 	 * Converts a Allfiled data XRI to a native Allfiled field identifier.
 	 * Example: +(personal)+(person)$!(+(forename)) --> forename
 	 */
-	public String allfiledDataXriToAllfiledFieldIdentifier(XRI3Segment allfiledDataXri) {
+	public String allfiledDataXriToAllfiledFieldIdentifier(XDI3Segment allfiledDataXri) {
 
 		if (allfiledDataXri == null) throw new NullPointerException();
 
 		// convert
 
-		String allfiledFieldIdentifier = Dictionary.instanceXriToNativeIdentifier(Multiplicity.baseArcXri((XRI3SubSegment) allfiledDataXri.getSubSegment(2)));
+		String allfiledFieldIdentifier = Dictionary.instanceXriToNativeIdentifier(Multiplicity.baseArcXri(allfiledDataXri.getSubSegment(2)));
 
 		// done
 
@@ -104,7 +103,7 @@ public class AllfiledMapping {
 	 * Maps and converts a Allfiled data XRI to an XDI data XRI.
 	 * Example: +(personal)+(person)$!(+(forename)) --> +first$!(+name)
 	 */
-	public XRI3Segment allfiledDataXriToXdiDataXri(XRI3Segment allfiledDataXri) {
+	public XDI3Segment allfiledDataXriToXdiDataXri(XDI3Segment allfiledDataXri) {
 
 		if (allfiledDataXri == null) throw new NullPointerException();
 
@@ -114,17 +113,17 @@ public class AllfiledMapping {
 
 		for (int i=0; i<allfiledDataXri.getNumSubSegments(); i++) {
 
-			buffer1.append(Dictionary.instanceXriToDictionaryXri(Multiplicity.baseArcXri((XRI3SubSegment) allfiledDataXri.getSubSegment(i))));
+			buffer1.append(Dictionary.instanceXriToDictionaryXri(Multiplicity.baseArcXri(allfiledDataXri.getSubSegment(i))));
 		}
 
 		// map
 
-		XRI3Segment allfiledDataDictionaryXri = new XRI3Segment("" + XRI_S_ALLFILED_CONTEXT + buffer1.toString());
+		XDI3Segment allfiledDataDictionaryXri = new XDI3Segment("" + XRI_S_ALLFILED_CONTEXT + buffer1.toString());
 		ContextNode allfiledDataDictionaryContextNode = this.mappingGraph.findContextNode(allfiledDataDictionaryXri, false);
 		if (allfiledDataDictionaryContextNode == null) return null;
 
 		ContextNode xdiDataDictionaryContextNode = Dictionary.getCanonicalContextNode(allfiledDataDictionaryContextNode);
-		XRI3Segment xdiDataDictionaryXri = xdiDataDictionaryContextNode.getXri();
+		XDI3Segment xdiDataDictionaryXri = xdiDataDictionaryContextNode.getXri();
 
 		// convert
 
@@ -134,14 +133,14 @@ public class AllfiledMapping {
 
 			if (i + 1 < xdiDataDictionaryXri.getNumSubSegments()) {
 
-				buffer2.append(Multiplicity.entitySingletonArcXri(Dictionary.dictionaryXriToInstanceXri((XRI3SubSegment) xdiDataDictionaryXri.getSubSegment(i))));
+				buffer2.append(Multiplicity.entitySingletonArcXri(Dictionary.dictionaryXriToInstanceXri(xdiDataDictionaryXri.getSubSegment(i))));
 			} else {
 
-				buffer2.append(Multiplicity.attributeSingletonArcXri(Dictionary.dictionaryXriToInstanceXri((XRI3SubSegment) xdiDataDictionaryXri.getSubSegment(i))));
+				buffer2.append(Multiplicity.attributeSingletonArcXri(Dictionary.dictionaryXriToInstanceXri(xdiDataDictionaryXri.getSubSegment(i))));
 			}
 		}
 
-		XRI3Segment xdiDataXri = new XRI3Segment(buffer2.toString());
+		XDI3Segment xdiDataXri = new XDI3Segment(buffer2.toString());
 
 		// done
 
@@ -154,7 +153,7 @@ public class AllfiledMapping {
 	 * Maps and converts an XDI data XRI to a Allfiled data XRI.
 	 * Example: +first$!(+name) --> +(personal)+(person)$!(+(forename))
 	 */
-	public XRI3Segment xdiDataXriToAllfiledDataXri(XRI3Segment xdiDataXri) {
+	public XDI3Segment xdiDataXriToAllfiledDataXri(XDI3Segment xdiDataXri) {
 
 		if (xdiDataXri == null) throw new NullPointerException();
 
@@ -164,17 +163,17 @@ public class AllfiledMapping {
 
 		for (int i=0; i<xdiDataXri.getNumSubSegments(); i++) {
 
-			buffer1.append(Dictionary.instanceXriToDictionaryXri(Multiplicity.baseArcXri((XRI3SubSegment) xdiDataXri.getSubSegment(i))));
+			buffer1.append(Dictionary.instanceXriToDictionaryXri(Multiplicity.baseArcXri(xdiDataXri.getSubSegment(i))));
 		}
 
 		// map
 
-		XRI3Segment xdiDataDictionaryXri = new XRI3Segment(buffer1.toString());
+		XDI3Segment xdiDataDictionaryXri = new XDI3Segment(buffer1.toString());
 		ContextNode xdiDataDictionaryContextNode = this.mappingGraph.findContextNode(xdiDataDictionaryXri, false);
 		if (xdiDataDictionaryContextNode == null) return null;
 
 		ContextNode allfiledDataDictionaryContextNode = Dictionary.getSynonymContextNodes(xdiDataDictionaryContextNode).next();
-		XRI3Segment allfiledDataDictionaryXri = allfiledDataDictionaryContextNode.getXri();
+		XDI3Segment allfiledDataDictionaryXri = allfiledDataDictionaryContextNode.getXri();
 
 		// convert
 
@@ -184,14 +183,14 @@ public class AllfiledMapping {
 
 			if (i + 1 < allfiledDataDictionaryXri.getNumSubSegments()) {
 
-				buffer2.append(Multiplicity.entitySingletonArcXri(Dictionary.dictionaryXriToInstanceXri((XRI3SubSegment) allfiledDataDictionaryXri.getSubSegment(i))));
+				buffer2.append(Multiplicity.entitySingletonArcXri(Dictionary.dictionaryXriToInstanceXri(allfiledDataDictionaryXri.getSubSegment(i))));
 			} else {
 
-				buffer2.append(Multiplicity.attributeSingletonArcXri(Dictionary.dictionaryXriToInstanceXri((XRI3SubSegment) allfiledDataDictionaryXri.getSubSegment(i))));
+				buffer2.append(Multiplicity.attributeSingletonArcXri(Dictionary.dictionaryXriToInstanceXri(allfiledDataDictionaryXri.getSubSegment(i))));
 			}
 		}
 
-		XRI3Segment allfiledDataXri = new XRI3Segment(buffer2.toString());
+		XDI3Segment allfiledDataXri = new XDI3Segment(buffer2.toString());
 
 		// done
 

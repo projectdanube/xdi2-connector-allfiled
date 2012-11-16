@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 import xdi2.connector.allfiled.mapping.AllfiledMapping;
 import xdi2.core.Graph;
 import xdi2.core.impl.memory.MemoryGraphFactory;
-import xdi2.core.xri3.impl.XRI3Segment;
+import xdi2.core.xri3.impl.XDI3Segment;
 
 public class AllfiledMappingTest extends TestCase {
 
@@ -27,8 +27,8 @@ public class AllfiledMappingTest extends TestCase {
 
 	public void testMapping() throws Exception {
 
-		XRI3Segment allfiledDataXri = new XRI3Segment("+(personal)+(person)$!(+(forename))");
-		XRI3Segment xdiDataXri = new XRI3Segment("+first$!(+name)");
+		XDI3Segment allfiledDataXri = new XDI3Segment("+(personal)+(person)$!(+(forename))");
+		XDI3Segment xdiDataXri = new XDI3Segment("+first$!(+name)");
 
 		assertEquals("personal", this.allfiledMapping.allfiledDataXriToAllfiledCategoryIdentifier(allfiledDataXri));
 		assertEquals("person", this.allfiledMapping.allfiledDataXriToAllfiledFileIdentifier(allfiledDataXri));
