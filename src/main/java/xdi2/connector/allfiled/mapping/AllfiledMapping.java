@@ -172,7 +172,7 @@ public class AllfiledMapping {
 		ContextNode xdiDataDictionaryContextNode = this.mappingGraph.findContextNode(xdiDataDictionaryXri, false);
 		if (xdiDataDictionaryContextNode == null) return null;
 
-		ContextNode allfiledDataDictionaryContextNode = Dictionary.getSynonymContextNodes(xdiDataDictionaryContextNode).next();
+		ContextNode allfiledDataDictionaryContextNode = Dictionary.getEquivalenceContextNodes(xdiDataDictionaryContextNode).next();
 		XDI3Segment allfiledDataDictionaryXri = allfiledDataDictionaryContextNode.getXri();
 
 		// convert
