@@ -151,21 +151,23 @@ public class AllfiledContributor extends AbstractContributor implements Messagin
 
 			log.debug("allfiledContextXri: " + allfiledContextXri + ", userXri: " + userXri + ", allfiledDataXri: " + allfiledDataXri);
 
+			// parse identifiers
+
+			String allfiledCategoryIdentifier = AllfiledContributor.this.allfiledMapping.allfiledDataXriToAllfiledCategoryIdentifier(allfiledDataXri);
+			String allfiledFileIdentifier = AllfiledContributor.this.allfiledMapping.allfiledDataXriToAllfiledFileIdentifier(allfiledDataXri);
+			String allfiledFieldIdentifier = AllfiledContributor.this.allfiledMapping.allfiledDataXriToAllfiledFieldIdentifier(allfiledDataXri);
+			if (allfiledCategoryIdentifier == null) return false;
+			if (allfiledFileIdentifier == null) return false;
+			if (allfiledFieldIdentifier == null) return false;
+
+			log.debug("allfiledCategoryIdentifier: " + allfiledCategoryIdentifier + ", allfiledFileIdentifier: " + allfiledFileIdentifier + ", allfiledFieldIdentifier: " + allfiledFieldIdentifier);
+
 			// retrieve the Allfiled value
 
 			String allfiledValue = null;
 
 			try {
 
-				String allfiledCategoryIdentifier = AllfiledContributor.this.allfiledMapping.allfiledDataXriToAllfiledCategoryIdentifier(allfiledDataXri);
-				String allfiledFileIdentifier = AllfiledContributor.this.allfiledMapping.allfiledDataXriToAllfiledFileIdentifier(allfiledDataXri);
-				String allfiledFieldIdentifier = AllfiledContributor.this.allfiledMapping.allfiledDataXriToAllfiledFieldIdentifier(allfiledDataXri);
-				if (allfiledCategoryIdentifier == null) return false;
-				if (allfiledFileIdentifier == null) return false;
-				if (allfiledFieldIdentifier == null) return false;
-
-				log.debug("allfiledCategoryIdentifier: " + allfiledCategoryIdentifier + ", allfiledFileIdentifier: " + allfiledFileIdentifier + ", allfiledFieldIdentifier: " + allfiledFieldIdentifier);
-				
 				String accessToken = GraphUtil.retrieveAccessToken(AllfiledContributor.this.getTokenGraph(), userXri);
 				if (accessToken == null) throw new Exception("No access token.");
 
