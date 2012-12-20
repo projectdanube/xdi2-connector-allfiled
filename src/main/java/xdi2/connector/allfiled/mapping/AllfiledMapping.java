@@ -7,6 +7,7 @@ import xdi2.core.ContextNode;
 import xdi2.core.Graph;
 import xdi2.core.exceptions.Xdi2RuntimeException;
 import xdi2.core.features.dictionary.Dictionary;
+import xdi2.core.features.equivalence.Equivalence;
 import xdi2.core.features.multiplicity.Multiplicity;
 import xdi2.core.impl.memory.MemoryGraphFactory;
 import xdi2.core.io.XDIReaderRegistry;
@@ -122,7 +123,7 @@ public class AllfiledMapping {
 		ContextNode allfiledDataDictionaryContextNode = this.mappingGraph.findContextNode(allfiledDataDictionaryXri, false);
 		if (allfiledDataDictionaryContextNode == null) return null;
 
-		ContextNode xdiDataDictionaryContextNode = Dictionary.getCanonicalContextNode(allfiledDataDictionaryContextNode);
+		ContextNode xdiDataDictionaryContextNode = Equivalence.getReferenceContextNode(allfiledDataDictionaryContextNode);
 		XDI3Segment xdiDataDictionaryXri = xdiDataDictionaryContextNode.getXri();
 
 		// convert
@@ -172,7 +173,7 @@ public class AllfiledMapping {
 		ContextNode xdiDataDictionaryContextNode = this.mappingGraph.findContextNode(xdiDataDictionaryXri, false);
 		if (xdiDataDictionaryContextNode == null) return null;
 
-		ContextNode allfiledDataDictionaryContextNode = Dictionary.getEquivalenceContextNodes(xdiDataDictionaryContextNode).next();
+		ContextNode allfiledDataDictionaryContextNode = Equivalence.getIncomingReferenceAndPrivateReferenceContextNodes(xdiDataDictionaryContextNode).next();
 		XDI3Segment allfiledDataDictionaryXri = allfiledDataDictionaryContextNode.getXri();
 
 		// convert
