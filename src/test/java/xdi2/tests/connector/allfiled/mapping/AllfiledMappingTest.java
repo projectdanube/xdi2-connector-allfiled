@@ -27,8 +27,8 @@ public class AllfiledMappingTest extends TestCase {
 
 	public void testMapping() throws Exception {
 
-		XDI3Segment allfiledDataXri = new XDI3Segment("+(personal)+(person)$!(+(forename))");
-		XDI3Segment xdiDataXri = new XDI3Segment("+first$!(+name)");
+		XDI3Segment allfiledDataXri = XDI3Segment.create("+(personal)+(person)$!(+(forename))");
+		XDI3Segment xdiDataXri = XDI3Segment.create("+first$!(+name)");
 
 		assertEquals("personal", this.allfiledMapping.allfiledDataXriToAllfiledCategoryIdentifier(allfiledDataXri));
 		assertEquals("person", this.allfiledMapping.allfiledDataXriToAllfiledFileIdentifier(allfiledDataXri));
