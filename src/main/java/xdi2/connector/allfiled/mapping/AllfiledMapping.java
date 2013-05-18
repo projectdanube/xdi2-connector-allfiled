@@ -8,7 +8,9 @@ import xdi2.core.Graph;
 import xdi2.core.exceptions.Xdi2RuntimeException;
 import xdi2.core.features.dictionary.Dictionary;
 import xdi2.core.features.equivalence.Equivalence;
-import xdi2.core.features.multiplicity.Multiplicity;
+import xdi2.core.features.nodetypes.XdiAbstractSubGraph;
+import xdi2.core.features.nodetypes.XdiAttributeSingleton;
+import xdi2.core.features.nodetypes.XdiEntitySingleton;
 import xdi2.core.impl.memory.MemoryGraphFactory;
 import xdi2.core.io.XDIReaderRegistry;
 import xdi2.core.xri3.XDI3Segment;
@@ -53,7 +55,7 @@ public class AllfiledMapping {
 
 		// convert
 
-		String allfiledCategoryIdentifier = Dictionary.instanceXriToNativeIdentifier(Multiplicity.baseArcXri(allfiledDataXri.getSubSegment(0)));
+		String allfiledCategoryIdentifier = Dictionary.instanceXriToNativeIdentifier(XdiAbstractSubGraph.getBaseArcXri(allfiledDataXri.getSubSegment(0)));
 
 		// done
 
@@ -72,7 +74,7 @@ public class AllfiledMapping {
 
 		// convert
 
-		String allfiledFileIdentifier = Dictionary.instanceXriToNativeIdentifier(Multiplicity.baseArcXri(allfiledDataXri.getSubSegment(1)));
+		String allfiledFileIdentifier = Dictionary.instanceXriToNativeIdentifier(XdiAbstractSubGraph.getBaseArcXri(allfiledDataXri.getSubSegment(1)));
 
 		// done
 
@@ -91,7 +93,7 @@ public class AllfiledMapping {
 
 		// convert
 
-		String allfiledFieldIdentifier = Dictionary.instanceXriToNativeIdentifier(Multiplicity.baseArcXri(allfiledDataXri.getSubSegment(2)));
+		String allfiledFieldIdentifier = Dictionary.instanceXriToNativeIdentifier(XdiAbstractSubGraph.getBaseArcXri(allfiledDataXri.getSubSegment(2)));
 
 		// done
 
@@ -114,7 +116,7 @@ public class AllfiledMapping {
 
 		for (int i=0; i<allfiledDataXri.getNumSubSegments(); i++) {
 
-			buffer1.append(Dictionary.instanceXriToDictionaryXri(Multiplicity.baseArcXri(allfiledDataXri.getSubSegment(i))));
+			buffer1.append(Dictionary.instanceXriToDictionaryXri(XdiAbstractSubGraph.getBaseArcXri(allfiledDataXri.getSubSegment(i))));
 		}
 
 		// map
@@ -134,10 +136,10 @@ public class AllfiledMapping {
 
 			if (i + 1 < xdiDataDictionaryXri.getNumSubSegments()) {
 
-				buffer2.append(Multiplicity.entitySingletonArcXri(Dictionary.dictionaryXriToInstanceXri(xdiDataDictionaryXri.getSubSegment(i))));
+				buffer2.append(XdiEntitySingleton.createArcXri(Dictionary.dictionaryXriToInstanceXri(xdiDataDictionaryXri.getSubSegment(i))));
 			} else {
 
-				buffer2.append(Multiplicity.attributeSingletonArcXri(Dictionary.dictionaryXriToInstanceXri(xdiDataDictionaryXri.getSubSegment(i))));
+				buffer2.append(XdiAttributeSingleton.createArcXri(Dictionary.dictionaryXriToInstanceXri(xdiDataDictionaryXri.getSubSegment(i))));
 			}
 		}
 
@@ -164,7 +166,7 @@ public class AllfiledMapping {
 
 		for (int i=0; i<xdiDataXri.getNumSubSegments(); i++) {
 
-			buffer1.append(Dictionary.instanceXriToDictionaryXri(Multiplicity.baseArcXri(xdiDataXri.getSubSegment(i))));
+			buffer1.append(Dictionary.instanceXriToDictionaryXri(XdiAbstractSubGraph.getBaseArcXri(xdiDataXri.getSubSegment(i))));
 		}
 
 		// map
@@ -184,10 +186,10 @@ public class AllfiledMapping {
 
 			if (i + 1 < allfiledDataDictionaryXri.getNumSubSegments()) {
 
-				buffer2.append(Multiplicity.entitySingletonArcXri(Dictionary.dictionaryXriToInstanceXri(allfiledDataDictionaryXri.getSubSegment(i))));
+				buffer2.append(XdiEntitySingleton.createArcXri(Dictionary.dictionaryXriToInstanceXri(allfiledDataDictionaryXri.getSubSegment(i))));
 			} else {
 
-				buffer2.append(Multiplicity.attributeSingletonArcXri(Dictionary.dictionaryXriToInstanceXri(allfiledDataDictionaryXri.getSubSegment(i))));
+				buffer2.append(XdiAttributeSingleton.createArcXri(Dictionary.dictionaryXriToInstanceXri(allfiledDataDictionaryXri.getSubSegment(i))));
 			}
 		}
 
