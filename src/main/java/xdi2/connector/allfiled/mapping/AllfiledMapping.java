@@ -8,7 +8,7 @@ import xdi2.core.Graph;
 import xdi2.core.exceptions.Xdi2RuntimeException;
 import xdi2.core.features.dictionary.Dictionary;
 import xdi2.core.features.equivalence.Equivalence;
-import xdi2.core.features.nodetypes.XdiAbstractSubGraph;
+import xdi2.core.features.nodetypes.XdiAbstractContext;
 import xdi2.core.features.nodetypes.XdiAttributeSingleton;
 import xdi2.core.features.nodetypes.XdiEntitySingleton;
 import xdi2.core.impl.memory.MemoryGraphFactory;
@@ -55,7 +55,7 @@ public class AllfiledMapping {
 
 		// convert
 
-		String allfiledCategoryIdentifier = Dictionary.instanceXriToNativeIdentifier(XdiAbstractSubGraph.getBaseArcXri(allfiledDataXri.getSubSegment(0)));
+		String allfiledCategoryIdentifier = Dictionary.instanceXriToNativeIdentifier(XdiAbstractContext.getBaseArcXri(allfiledDataXri.getSubSegment(0)));
 
 		// done
 
@@ -74,7 +74,7 @@ public class AllfiledMapping {
 
 		// convert
 
-		String allfiledFileIdentifier = Dictionary.instanceXriToNativeIdentifier(XdiAbstractSubGraph.getBaseArcXri(allfiledDataXri.getSubSegment(1)));
+		String allfiledFileIdentifier = Dictionary.instanceXriToNativeIdentifier(XdiAbstractContext.getBaseArcXri(allfiledDataXri.getSubSegment(1)));
 
 		// done
 
@@ -93,7 +93,7 @@ public class AllfiledMapping {
 
 		// convert
 
-		String allfiledFieldIdentifier = Dictionary.instanceXriToNativeIdentifier(XdiAbstractSubGraph.getBaseArcXri(allfiledDataXri.getSubSegment(2)));
+		String allfiledFieldIdentifier = Dictionary.instanceXriToNativeIdentifier(XdiAbstractContext.getBaseArcXri(allfiledDataXri.getSubSegment(2)));
 
 		// done
 
@@ -116,7 +116,7 @@ public class AllfiledMapping {
 
 		for (int i=0; i<allfiledDataXri.getNumSubSegments(); i++) {
 
-			buffer1.append(Dictionary.instanceXriToDictionaryXri(XdiAbstractSubGraph.getBaseArcXri(allfiledDataXri.getSubSegment(i))));
+			buffer1.append(Dictionary.instanceXriToDictionaryXri(XdiAbstractContext.getBaseArcXri(allfiledDataXri.getSubSegment(i))));
 		}
 
 		// map
@@ -166,7 +166,7 @@ public class AllfiledMapping {
 
 		for (int i=0; i<xdiDataXri.getNumSubSegments(); i++) {
 
-			buffer1.append(Dictionary.instanceXriToDictionaryXri(XdiAbstractSubGraph.getBaseArcXri(xdiDataXri.getSubSegment(i))));
+			buffer1.append(Dictionary.instanceXriToDictionaryXri(XdiAbstractContext.getBaseArcXri(xdiDataXri.getSubSegment(i))));
 		}
 
 		// map
